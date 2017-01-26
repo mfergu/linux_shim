@@ -1,19 +1,11 @@
-#not completed
 CC=clang
-CFLAGS=-Weverything -g -std=c11
+CFLAGS=-Weverything -g
 
-c   = leakcount.c    
-h   = leakcount.h   
-m   = main.c    
-t   = leakcount    
-    
-leakcount    = main.o leakcount.o    
-    
-all:        $t    
-clean:              ; rm -f $t *.o    
-    
-test::      leakcount        ; leakcount     
-    
-leakcount:       $(leakcount)     ; $(CC) $(CFLAGS) -o $@ $(leakcount)    
-    
+all: $(BINS)
+
+leakcount.so:  leakcount.c    
+    $(CC) $(CFLAGS) -fPIC -shared -o shim.so shim.c -ldl
+
+clean:
+	rm $(BINS)
 
