@@ -1,4 +1,4 @@
-
+//http://bit.ly/2kqkn93
 //http://bit.ly/2juhG81    
 #define _GNU_SOURCE    
 
