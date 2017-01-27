@@ -2,7 +2,7 @@
 //http://bit.ly/2juhG81    
 #define _GNU_SOURCE    
 
-void __attribute__ ((constructor)) malloc_init(size_t);
+void __attribute__ ((constructor)) malloc_init(void);
 void __attribute__ ((destructor)) cleanup(void);
 
 #include <stdio.h>    
@@ -27,14 +27,13 @@ void malloc_init(void) {
 // intecepting malloc calls 
 void* malloc(size_t size) {    
     
-    void* (*libc_malloc)(size_t) = dlsym(RTLD_NEXT, "malloc");    
     
-    void *mem = libc_malloc (size);    
+    void *heap = original_malloc(size);    
     
-    if(mem) {    
-        fprintf (stderr, "[MALLOC] %zu bytes at %p", size, mem);    
+    if(heap) {    
+        fprintf (stderr, "[MALLOC] %zu bytes at %p", size, heap);    
     }    
     
-    return mem;    
+    return heap;    
 }    
 
