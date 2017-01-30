@@ -1,9 +1,9 @@
 #include <stdio.h>
 int main(void) {
-printf("/n/n/t this is temp\n\n");
 
-	int val = 1;
-	char* buf = malloc(val);
-	free(buf);
+	char* buf1 = malloc(2*sizeof(char));
+	char* buf2 = malloc(2*sizeof(char));
+	free(buf2);
+	free(buf1);
 	return 0;
 }

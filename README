@@ -1,0 +1,5 @@
+
+temp.c is the malloc being tested
+compile temp.c with clang
+compile the library and shim with the makefile
+run the test program with " ./leakcount ./a.out "

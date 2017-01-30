@@ -1,20 +1,34 @@
+#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 int main(int argc, char** argv) {
 
-	//take second command line argument add LD_PRELOAD of shimmed malloc
-	char* ld_preload = "LD_PRELOAD=./leakcount.so ./";
-	char shim_me[256];
-	snprintf(shim_me, sizeof shim_me, "%s%s", ld_preload, argv[1]);
-	FILE* pipe = popen(shim_me,"r"); 	
+
+	//make a buffer that will be fed to the pipe
+	char* cla[argc-1];
+	cla[0] = "LD_PRELOAD=./leakcount.so ";
+	//catch all cla
+	if(argc > 1) {
+		int i = 1;
+		while( i < argc) {
+			cla[i] = argv[i];
+			++i;
+		}
+	}
+
+	char shim_me[256] = {};
+	for(int i = 0; i < argc; i++) {
+			
+			strcat(shim_me, cla[i]);	
+	}
+
+	FILE* pipe = popen(shim_me,"w"); 	
 	if(!pipe)
 		printf("popen returned null\n");	
-	int size = 0;
-	char* buff = 0;
 	fflush(stdout);
-	buff = malloc (size);
-	free(buff);
+	pclose(pipe);
 
 	return 1;
 	
