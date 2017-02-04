@@ -38,6 +38,7 @@ size_t total_space = 0;
 void cleanup(void) {
 	//use this to function to close any files that were still open
 	//or do any other clean up.
+	print_list(&my_allocs);
 }
 
 
@@ -45,7 +46,6 @@ void malloc_init(void) {
 	if(original_malloc == NULL) {
 		original_malloc = dlsym(RTLD_NEXT, "malloc");
 	}
-	printf("initializing malloc.\n");
 }
 
 
@@ -68,15 +68,12 @@ void free_init(void) {
 	if(original_free == NULL) {
 		original_free = dlsym(RTLD_NEXT, "free");
 	}
-	printf("initializing free.\n");
 }	
 
 
 //intercepting free calls
 void free(void* temp) {
-		print_list(&my_allocs);
 	remove_alloc(&my_allocs, temp);
-		print_list(&my_allocs);
 	original_free(temp);	
 }
 
@@ -121,12 +118,18 @@ void print_list(alloc_t* head) {
 	if(head == NULL) {
 		return;
 	}
-
+	size_t num_of_leaks = 0, total_leak = 0;
 	alloc_t* temp = head;
 	while( temp != NULL) {
-		printf(" temp->size: %zu\ttemp->loc: %p\n\n", temp->size, temp->location);
-		temp = temp->next;
+		if(temp->size > 0) {
+			fprintf(stderr, "LEAK\t%zu\n", temp->size);
+			++num_of_leaks;
+			total_leak += temp->size;
+		}
+			temp = temp->next;
 	}	
+
+	fprintf(stderr, "TOTAL\t%zu\t%zu\n", num_of_leaks, total_leak );
 
 }
 
