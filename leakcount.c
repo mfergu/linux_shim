@@ -108,6 +108,9 @@ void remove_alloc(alloc_t* head, unsigned long* remove_me) {
 		current = current->next;
 		
 	}
+	if(current->next == NULL && current->location != remove_me) 
+		return;
+	
 	alloc_t* temp = current;
 	previous->next = current->next;
 	

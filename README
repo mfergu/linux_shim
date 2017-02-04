@@ -1,5 +1,17 @@
 
-temp.c is the malloc being tested
-compile temp.c with clang
-compile the library and shim with the makefile
-run the test program with " ./leakcount ./a.out "
+compiling
+
+	temp.c is the malloc being tested
+	compile temp.c with "clang -g temp.c"
+	compile the library and shim with the makefile
+	run the test program with " ./leakcount ./a.out "
+
+running in GDB
+
+	gdb ./leakcount
+	b main
+	set environment LD_PRELOAD=./leakcount.so
+	show environment
+	set follow-fork-mode child
+	r./a.out
+
