@@ -18,7 +18,7 @@ int main(int argc, char** argv) {
 		}
 	}
 
-	char shim_me[256] = {};
+	char* shim_me = calloc(256, sizeof(char));
 	for(int i = 0; i < argc; i++) {
 			
 			strcat(shim_me, cla[i]);	
@@ -29,6 +29,7 @@ int main(int argc, char** argv) {
 		printf("popen returned null\n");	
 	fflush(stdout);
 	pclose(pipe);
+	free(shim_me);
 
 	return 1;
 	

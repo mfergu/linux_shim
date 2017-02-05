@@ -14,8 +14,6 @@ int main(void) {
 	printf("\tbuf2 location is %p\n\n", buf2);
 	printf("\tbuf3 location is %p\n\n", buf3);
 */
-	free(buf7);
-	free(buf8);
 	free(buf1);
 	free(buf6);
 	return 0;
