@@ -35,6 +35,9 @@ $$$$$$$  |\$$$$$$$\   \$$$$  |$$ |     \$$$$$$$ |\$$$$$$$\ \$$$$$$$\ $$ |
 \_______/  \_______|   \____/ \__|      \_______| \_______| \_______|\__|      
 
 compiling
+
 running in GDB
+
 testing
+	./sctrace "cp sc_temp.txt sc_temp1.txt" sc_output.txt
 	strace -c "sc_test_command arg1 arg2"
